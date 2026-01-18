@@ -1,0 +1,410 @@
+[
+  {
+    "policyNumber": "IN-1001",
+    "name": "Amit Verma",
+    "age": 35,
+    "insuranceType": "Health",
+    "plan": "Silver Care Plus",
+    "premium": 12500,
+    "coverage": 500000,
+    "startDate": "2023-01-15",
+    "endDate": "2026-01-15",
+    "claims": [
+      {
+        "claimId": "CL-9001",
+        "date": "2024-06-10",
+        "amount": 23000,
+        "reason": "Appendix Surgery",
+        "status": "Settled"
+      }
+    ]
+  },
+  {
+    "policyNumber": "IN-1002",
+    "name": "Neha Sharma",
+    "age": 29,
+    "insuranceType": "Health",
+    "plan": "Gold Health Pro",
+    "premium": 18500,
+    "coverage": 800000,
+    "startDate": "2023-07-10",
+    "endDate": "2027-07-10",
+    "claims": [
+      {
+        "claimId": "CL-9002",
+        "date": "2024-02-22",
+        "amount": 15000,
+        "reason": "Fracture Treatment",
+        "status": "Settled"
+      }
+    ]
+  },
+  {
+    "policyNumber": "IN-1003",
+    "name": "Rohit Sinha",
+    "age": 42,
+    "insuranceType": "Life",
+    "plan": "Secure Life 20Y",
+    "premium": 22000,
+    "coverage": 2500000,
+    "startDate": "2022-03-05",
+    "endDate": "2042-03-05",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1004",
+    "name": "Priya Deshpande",
+    "age": 31,
+    "insuranceType": "Vehicle",
+    "plan": "Comprehensive Auto",
+    "premium": 9500,
+    "coverage": 300000,
+    "startDate": "2023-04-18",
+    "endDate": "2024-04-18",
+    "claims": [
+      {
+        "claimId": "CL-9003",
+        "date": "2023-11-02",
+        "amount": 18000,
+        "reason": "Rear Bumper Accident",
+        "status": "In Review"
+      }
+    ]
+  },
+  {
+    "policyNumber": "IN-1005",
+    "name": "Karan Mehta",
+    "age": 46,
+    "insuranceType": "Life",
+    "plan": "Term Life Plus",
+    "premium": 17500,
+    "coverage": 1500000,
+    "startDate": "2021-09-01",
+    "endDate": "2041-09-01",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1006",
+    "name": "Simran Kaur",
+    "age": 27,
+    "insuranceType": "Health",
+    "plan": "Silver Care",
+    "premium": 10500,
+    "coverage": 400000,
+    "startDate": "2023-05-20",
+    "endDate": "2026-05-20",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1007",
+    "name": "Rahul Patel",
+    "age": 33,
+    "insuranceType": "Vehicle",
+    "plan": "Third Party Auto",
+    "premium": 6500,
+    "coverage": 150000,
+    "startDate": "2023-02-10",
+    "endDate": "2024-02-10",
+    "claims": [
+      {
+        "claimId": "CL-9004",
+        "date": "2023-09-16",
+        "amount": 12000,
+        "reason": "Side Mirror Damage",
+        "status": "Rejected"
+      }
+    ]
+  },
+  {
+    "policyNumber": "IN-1008",
+    "name": "Anjali Joshi",
+    "age": 38,
+    "insuranceType": "Health",
+    "plan": "Platinum Care",
+    "premium": 24000,
+    "coverage": 1200000,
+    "startDate": "2022-12-25",
+    "endDate": "2027-12-25",
+    "claims": [
+      {
+        "claimId": "CL-9005",
+        "date": "2024-03-08",
+        "amount": 32000,
+        "reason": "Gallbladder Surgery",
+        "status": "Settled"
+      }
+    ]
+  },
+  {
+    "policyNumber": "IN-1009",
+    "name": "Vikas Yadav",
+    "age": 40,
+    "insuranceType": "Vehicle",
+    "plan": "Comprehensive Auto Plus",
+    "premium": 12000,
+    "coverage": 500000,
+    "startDate": "2023-06-01",
+    "endDate": "2024-06-01",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1010",
+    "name": "Swati Kulkarni",
+    "age": 36,
+    "insuranceType": "Life",
+    "plan": "Life Secure Premium",
+    "premium": 20000,
+    "coverage": 2000000,
+    "startDate": "2021-01-15",
+    "endDate": "2041-01-15",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1011",
+    "name": "Manoj Tiwari",
+    "age": 50,
+    "insuranceType": "Health",
+    "plan": "Senior Plus",
+    "premium": 30000,
+    "coverage": 700000,
+    "startDate": "2023-08-01",
+    "endDate": "2026-08-01",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1012",
+    "name": "Divya Nair",
+    "age": 28,
+    "insuranceType": "Health",
+    "plan": "Gold Health",
+    "premium": 17000,
+    "coverage": 700000,
+    "startDate": "2023-05-10",
+    "endDate": "2026-05-10",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1013",
+    "name": "Harish Babu",
+    "age": 45,
+    "insuranceType": "Life",
+    "plan": "Secure Life 15Y",
+    "premium": 21000,
+    "coverage": 1800000,
+    "startDate": "2020-03-11",
+    "endDate": "2035-03-11",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1014",
+    "name": "Pooja Singh",
+    "age": 32,
+    "insuranceType": "Vehicle",
+    "plan": "Full Auto Protect",
+    "premium": 11000,
+    "coverage": 450000,
+    "startDate": "2023-03-20",
+    "endDate": "2024-03-20",
+    "claims": [
+      {
+        "claimId": "CL-9006",
+        "date": "2023-12-10",
+        "amount": 20000,
+        "reason": "Front Bumper & Grill",
+        "status": "In Review"
+      }
+    ]
+  },
+  {
+    "policyNumber": "IN-1015",
+    "name": "Gaurav Rastogi",
+    "age": 39,
+    "insuranceType": "Health",
+    "plan": "Silver Care",
+    "premium": 12000,
+    "coverage": 350000,
+    "startDate": "2023-06-01",
+    "endDate": "2026-06-01",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1016",
+    "name": "Nidhi Patel",
+    "age": 41,
+    "insuranceType": "Life",
+    "plan": "Term Life Max",
+    "premium": 25000,
+    "coverage": 2500000,
+    "startDate": "2019-04-10",
+    "endDate": "2039-04-10",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1017",
+    "name": "Salman Khan",
+    "age": 30,
+    "insuranceType": "Vehicle",
+    "plan": "Third Party Plus",
+    "premium": 7000,
+    "coverage": 200000,
+    "startDate": "2023-07-15",
+    "endDate": "2024-07-15",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1018",
+    "name": "Aarti Jha",
+    "age": 27,
+    "insuranceType": "Health",
+    "plan": "Platinum Care",
+    "premium": 25000,
+    "coverage": 1300000,
+    "startDate": "2023-02-09",
+    "endDate": "2026-02-09",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1019",
+    "name": "Sandeep Yadav",
+    "age": 46,
+    "insuranceType": "Vehicle",
+    "plan": "Comprehensive Auto",
+    "premium": 13500,
+    "coverage": 550000,
+    "startDate": "2023-09-12",
+    "endDate": "2024-09-12",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1020",
+    "name": "Kirti Menon",
+    "age": 34,
+    "insuranceType": "Life",
+    "plan": "Life Secure Basic",
+    "premium": 14000,
+    "coverage": 1400000,
+    "startDate": "2022-01-01",
+    "endDate": "2042-01-01",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1021",
+    "name": "Tarun Bansal",
+    "age": 37,
+    "insuranceType": "Health",
+    "plan": "Gold Health Pro",
+    "premium": 19000,
+    "coverage": 850000,
+    "startDate": "2023-10-20",
+    "endDate": "2026-10-20",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1022",
+    "name": "Ankita Roy",
+    "age": 29,
+    "insuranceType": "Health",
+    "plan": "Silver Care Plus",
+    "premium": 14500,
+    "coverage": 550000,
+    "startDate": "2023-11-14",
+    "endDate": "2026-11-14",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1023",
+    "name": "Yogesh Kumar",
+    "age": 43,
+    "insuranceType": "Vehicle",
+    "plan": "Full Auto Protect",
+    "premium": 15000,
+    "coverage": 600000,
+    "startDate": "2023-03-21",
+    "endDate": "2024-03-21",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1024",
+    "name": "Sneha Rathod",
+    "age": 31,
+    "insuranceType": "Life",
+    "plan": "Term Life Advantage",
+    "premium": 18000,
+    "coverage": 1800000,
+    "startDate": "2020-02-20",
+    "endDate": "2040-02-20",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1025",
+    "name": "Javed Ali",
+    "age": 47,
+    "insuranceType": "Health",
+    "plan": "Senior Plus",
+    "premium": 27000,
+    "coverage": 800000,
+    "startDate": "2023-03-12",
+    "endDate": "2026-03-12",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1026",
+    "name": "Chetan Bhatt",
+    "age": 39,
+    "insuranceType": "Vehicle",
+    "plan": "Third Party Auto",
+    "premium": 6000,
+    "coverage": 120000,
+    "startDate": "2023-08-10",
+    "endDate": "2024-08-10",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1027",
+    "name": "Ruchi Jain",
+    "age": 35,
+    "insuranceType": "Health",
+    "plan": "Platinum Care",
+    "premium": 26000,
+    "coverage": 1400000,
+    "startDate": "2023-02-01",
+    "endDate": "2026-02-01",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1028",
+    "name": "Arjun Rao",
+    "age": 44,
+    "insuranceType": "Life",
+    "plan": "Term Life Premium",
+    "premium": 26000,
+    "coverage": 3000000,
+    "startDate": "2019-09-01",
+    "endDate": "2039-09-01",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1029",
+    "name": "Fatima Siddiqui",
+    "age": 30,
+    "insuranceType": "Health",
+    "plan": "Gold Health",
+    "premium": 17500,
+    "coverage": 750000,
+    "startDate": "2023-05-15",
+    "endDate": "2026-05-15",
+    "claims": []
+  },
+  {
+    "policyNumber": "IN-1030",
+    "name": "Deepak Chaturvedi",
+    "age": 41,
+    "insuranceType": "Vehicle",
+    "plan": "Comprehensive Auto",
+    "premium": 12500,
+    "coverage": 520000,
+    "startDate": "2023-04-25",
+    "endDate": "2024-04-25",
+    "claims": []
+  }
+]
