@@ -1,95 +1,138 @@
-import OpenAI from "openai";
-import mongoose from "mongoose";
-import InsuranceEmbedding from "../models/insurancemodel.js";
+import { getCollection } from "../db.js";
+import { getEmbeddings, getAnswerFromLLM } from "../services/geminiservices.js";
+import bcrypt from "bcrypt";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
 
-// Helper: create vector search aggregation using Mongoose
+import User from "../models/User.js";
+
+
+
+dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+
 function buildAggregationPipeline(queryEmbedding) {
   return [
     {
       $vectorSearch: {
-        queryVector: queryEmbedding,
+        index: "vector_index_rag",
         path: "embedding",
-        numCandidates: 10,
-        limit: 3,
-        index: "insurance_vector_index", // Make sure this matches your Atlas index
-      },
-    },
-    {
-      $project: {
-        text: 1,
-        policyNumber: 1,
-        customerName: 1,
-        score: { $meta: "vectorSearchScore" },
+        queryVector: queryEmbedding,
+        numCandidates: 100,
+        limit: 5,
       },
     },
   ];
 }
 
-// Generate embedding for query
-async function getQueryEmbedding(query) {
-  const response = await openai.embeddings.create({
-    model: "text-embedding-3-small",
-    input: query,
-  });
-  return response.data[0].embedding;
-}
-
-// Generate answer from GPT using context
-async function getAnswerFromLLM(query, context) {
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are a helpful assistant that answers questions based only on the provided context.",
-      },
-      {
-        role: "user",
-        content: `Context:\n${context}\n\nQuestion: ${query}`,
-      },
-    ],
-  });
-  return completion.choices[0].message.content;
-}
-
-// Main controller for /ask
-export async function askQuestion(req, res) {
+export const askQuestion = async (req, res) => {
   const { query } = req.body;
-  if (!query) return res.status(400).json({ error: "Query is required" });
+
+  if (!query) {
+    return res.status(400).json({ error: "Query is required" });
+  }
 
   try {
-    // 1 Connect to MongoDB via Mongoose if not connected
-    if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(process.env.MONGO_URI, {
-        dbName: process.env.DB_NAME,
-      });
-      console.log(" Connected to MongoDB via Mongoose");
-    }
+    const queryEmbedding = await getEmbeddings(query);
 
-    //  Generate query embedding
-    const queryEmbedding = await getQueryEmbedding(query);
+    const collection = await getCollection("insurance_embeddings");
+    const pipeline = buildAggregationPipeline(queryEmbedding);
 
-    //  Run vector search via Mongoose aggregation
-    const results = await InsuranceEmbedding.aggregate(
-      buildAggregationPipeline(queryEmbedding)
-    );
+    const results = await collection.aggregate(pipeline).toArray();
 
-    if (!results || results.length === 0) {
+    if (!results.length) {
       return res.json({ answer: "No relevant information found." });
     }
 
-    // Combine top results as context
-    const context = results.map((r) => r.text).join("\n\n");
-
-    // Send query + context to GPT
+    const context = results.map(r => r.text).join("\n\n");
     const answer = await getAnswerFromLLM(query, context);
 
-    res.json({ answer });
-  } catch (error) {
-    console.error(" Error:", error);
-    res.status(500).json({ error: error.message });
+    res.json({
+      answer,
+      sources: results.length,
+    });
+
+  } catch (err) {
+    console.error("API Error:", err);
+    res.status(500).json({ error: err.message });
   }
-}
+};
+ export const register = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    console.log("BODY:", req.body);
+
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const existuser = await User.findOne({ email });
+
+    if (existuser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const hashpassword = await bcrypt.hash(password, 10);
+
+    const user = new User({
+      name,
+      email,
+      password: hashpassword,
+    });
+
+    await user.save();
+
+    const token = jwt.sign(
+      { id: user._id },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.status(201).json({
+      token,
+      user: { id: user._id, name: user.name, email: user.email },
+    });
+
+  } catch (error) {
+    console.error("Register Error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+ export const loginuser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+ console.log("Login email:", email);
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email and password required" });
+    }
+
+    const user = await User.findOne({ email });
+   console.log("User from DB:", user);
+    if (!user) {
+      return res.status(400).json({ message: "Email not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign(
+      { id: user._id },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({
+      token,
+      user: { id: user._id, name: user.name, email: user.email },
+    });
+
+  } catch (error) {
+    console.error("Login Error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};

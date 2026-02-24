@@ -1,14 +1,22 @@
 import fs from "fs";
 import dotenv from "dotenv";
-import OpenAI from "openai";
-import InsuranceEmbedding from "../models/insurancemodel.js";
-import mongoose from "mongoose";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import {  getCollection } from "../db.js";
 
 dotenv.config();
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+// ===============================
+// Gemini setup
+// ===============================
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Helper to flatten insurance record
+const embeddingModel = genAI.getGenerativeModel({
+  model: "models/gemini-embedding-001",
+});
+
+// ===============================
+// Convert insurance record → text
+// ===============================
 function flattenInsuranceRecord(record) {
   const {
     policyNumber,
@@ -34,59 +42,62 @@ function flattenInsuranceRecord(record) {
       : "No claim history";
 
   return `
-Policy Number: ${policyNumber}.
-Customer Name: ${name}, Age: ${age}.
-Insurance Type: ${insuranceType}.
-Plan: ${plan}.
-Premium: ₹${premium}, Coverage: ₹${coverage}.
-Policy Period: ${startDate} to ${endDate}.
-Claims: ${claimText}.
-`.replace(/\s+/g, " ").trim();
+Policy Number: ${policyNumber}
+Customer: ${name} (${age})
+Insurance Type: ${insuranceType}
+Plan: ${plan}
+Premium: ₹${premium}, Coverage: ₹${coverage}
+Period: ${startDate} → ${endDate}
+Claims: ${claimText}
+`.trim();
 }
 
-// Seed controller
-export async function generateAndStoreEmbeddings(req, res) {
+// ===============================
+// Generate & store embeddings
+// ===============================
+export async function generateAndStoreEmbeddings() {
   try {
-    // 1 Connect to MongoDB via Mongoose
-    if (mongoose.connection.readyState === 0) {
-      await mongoose.connect(process.env.MONGO_URI, {
-        dbName: process.env.DB_NAME,
-      });
-      console.log("✅ Connected to MongoDB via Mongoose");
-    }
-
-    // 2️ Read insurance data
-    const fileData = fs.readFileSync("./seed/insurance_data.json", "utf-8");
+    // 1️ Read JSON file
+    const fileData = fs.readFileSync("./data/details.json", "utf-8");
     const insuranceArray = JSON.parse(fileData);
-    console.log(` Loaded ${insuranceArray.length} insurance records`);
 
-    const texts = insuranceArray.map(flattenInsuranceRecord);
+    console.log(`Loaded ${insuranceArray.length} insurance records`);
 
-    // 3️ Generate embeddings in batch
-    const response = await openai.embeddings.create({
-      model: "text-embedding-3-small",
-      input: texts,
+    const collection = await getCollection("insurance_embeddings");
+    const documents = [];
+
+    // 2️ Process each insurance record
+    for (const record of insuranceArray) {
+      const text = flattenInsuranceRecord(record);
+ const result = await embeddingModel.embedContent({
+      content: {
+        parts: [{ text }],
+      },
     });
 
-    const documents = response.data.map((item, i) => ({
-      text: texts[i],
-      embedding: item.embedding,
-      policyNumber: insuranceArray[i].policyNumber,
-      customerName: insuranceArray[i].name,
-      insuranceType: insuranceArray[i].insuranceType,
-    }));
+    const embedding = result.embedding.values;
+    console.log("Embedding size:", embedding.length);
+      documents.push({
+        text,
+        embedding,
+        policyNumber: record.policyNumber,
+        customerName: record.name,
+        insuranceType: record.insuranceType,
+        createdAt: new Date(),
+      });
 
-    // 4️ Insert documents using Mongoose
-    await InsuranceEmbedding.insertMany(documents, { ordered: false });
+      console.log(`Generated embedding for ${record.name}`);
+    }
 
-    console.log(` Inserted ${documents.length} embeddings into MongoDB.`);
-
-    res.json({ message: `Inserted ${documents.length} embeddings.` });
+    // 3️ Insert into MongoDB
+    if (documents.length > 0) {
+      await collection.insertMany(documents);
+      console.log(`Inserted ${documents.length} embeddings into MongoDB`);
+    }
   } catch (error) {
-    console.error(" Error:", error);
-    res.status(500).json({ error: error.message });
+    console.error(" Error:", error.message);
   } finally {
-    // Optional: close Mongoose connection if this script runs standalone
-    // await mongoose.disconnect();
+  
+    console.log("Database connection closed");
   }
 }
