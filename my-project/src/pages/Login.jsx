@@ -18,7 +18,7 @@ const Login = () => {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/login", {
+      const res = await axios.post("https://ragchatbox-b5pe.onrender.com", {
         email,
         password,
       });
