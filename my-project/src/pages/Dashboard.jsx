@@ -26,7 +26,7 @@ const Dashboard = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "http://localhost:5000/api/ask",
+        "https://ragchatbox-b5pe.onrender.com",
         { query },
         {
           headers: {
