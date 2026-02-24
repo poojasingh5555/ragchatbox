@@ -33,7 +33,7 @@ const Register = () => {
     try {
       setLoading(true);
 
-      await axios.post("http://localhost:5000/api/register", {
+      await axios.post("https://ragchatbox-b5pe.onrender.com", {
         name: form.name,
         email: form.email,
         password: form.password,
