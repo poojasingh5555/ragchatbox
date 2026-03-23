@@ -1,11 +1,14 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
+
 
 import { connectToMongo } from "./db.js";
 import route from "./routes/askroute.js";
 
-dotenv.config();
+
 
 const app = express();
 
@@ -15,6 +18,8 @@ app.use(express.json());
 app.use("/api", route);
 
 const PORT = process.env.PORT ;
+
+
 
 async function startServer() {
   try {
