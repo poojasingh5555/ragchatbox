@@ -4,8 +4,13 @@ import { getEmbeddings, getAnswerFromLLM } from "../services/aiservices.js";
 
 import dotenv from "dotenv";
 
+
+
+
+
+
 dotenv.config();
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+
 
 function buildAggregationPipeline(queryEmbedding) {
   return [
@@ -53,3 +58,4 @@ export const askQuestion = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+ 
