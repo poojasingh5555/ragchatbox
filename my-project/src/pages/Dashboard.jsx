@@ -24,7 +24,7 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:5000/api/ask",
+        "https://ragchatbox-3mth.onrender.com/api/ask",
         { query: voiceQuery },
         { headers: { Authorization: token ? `Bearer ${token}` : "" } }
       );
@@ -53,7 +53,7 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:5000/api/ask",
+        "https://ragchatbox-3mth.onrender.com/api/ask",
         { query },
         { headers: { Authorization: token ? `Bearer ${token}` : "" } }
       );
