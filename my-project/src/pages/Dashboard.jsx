@@ -105,7 +105,7 @@ const Dashboard = () => {
 
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/api/upload-pdf", formData, {
+      await axios.post("https://ragchatbox-3mth.onrender.com/api/upload-pdf", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: token ? `Bearer ${token}` : "",
